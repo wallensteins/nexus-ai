@@ -42,12 +42,12 @@ export class CliInterface {
   displayRecommendations(recommendations: ChampionRecommendation[], lane: Lane): void {
     console.log(chalk.bold(`\nTop Champion Recommendations for ${lane}:`));
     console.log(chalk.dim('-------------------------------------------'));
-    
+
     recommendations.forEach((rec, index) => {
       // Champion name and basic stats
-      console.log(chalk.blue.bold(`${index + 1}. ${rec.champion.name}`), 
+      console.log(chalk.blue.bold(`${index + 1}. ${rec.champion.name}`),
         chalk.dim(`(${rec.champion.title})`));
-      
+
       // Win/pick rates
       const laneStats = rec.champion.lanes[lane];
       console.log(
@@ -55,9 +55,19 @@ export class CliInterface {
         `Pick Rate: ${chalk.yellow((laneStats.pickRate * 100).toFixed(1) + '%')}, ` +
         `Score: ${chalk.cyan(laneStats.score.toFixed(1))}`
       );
-      
+
       // Why this champion is recommended
       console.log(chalk.magenta('   Why: ') + rec.reasons.join(', '));
+
+      // Display matchup information if available
+      if (rec.counters && rec.counters.length > 0) {
+        console.log(chalk.green('   Counters: ') + rec.counters.join(', '));
+      }
+
+      if (rec.counteredBy && rec.counteredBy.length > 0) {
+        console.log(chalk.red('   Countered by: ') + rec.counteredBy.join(', '));
+      }
+
       console.log(chalk.dim('-------------------------------------------'));
     });
     console.log('');
@@ -104,14 +114,17 @@ export class CliInterface {
    */
   displayChampSelectDetected(lane: Lane | null): void {
     console.log(chalk.green('\nChampion select detected!'));
-    
+
     if (lane) {
       console.log(chalk.yellow(`You've been assigned to ${lane}`));
-      console.log(chalk.dim('Type "recommend" to see champion recommendations for your lane\n'));
+      console.log(chalk.dim('Showing automatic recommendations for your lane...'));
     } else {
       console.log(chalk.yellow('No lane assignment detected yet'));
-      console.log(chalk.dim('Lane assignments will appear when available\n'));
+      console.log(chalk.dim('Recommendations will appear automatically when your lane is assigned'));
     }
+
+    console.log(chalk.dim('Recommendations will update if an enemy champion is picked'));
+    console.log(chalk.dim('Type "recommend [lane]" for custom recommendations\n'));
   }
   
   /**

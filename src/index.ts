@@ -18,6 +18,7 @@ async function main() {
   let lcuApi: LcuApi | null = null;
   let currentLane: Lane | null = null;
   let inChampSelect = false;
+  let lastSeenEnemyChampion: number | null = null;
   
   // Function to connect to the League client
   async function connectToClient() {
@@ -39,25 +40,112 @@ async function main() {
     
     // Listen for champion select events
     lcuApi.onChampSelect(async (session) => {
+      // First time entering champion select
       if (!inChampSelect) {
         inChampSelect = true;
-        
+
         // Get assigned lane
         if (lcuApi) {
           currentLane = await lcuApi.getAssignedLane();
         }
-        
+
         // Notify user
         cli.displayChampSelectDetected(currentLane);
+
+        // Automatically show recommendations if lane is assigned
+        if (currentLane) {
+          await showLaneRecommendations(currentLane);
+        }
+      } else {
+        // Already in champion select, check for updates
+        const newLane = await lcuApi.getAssignedLane();
+
+        // If lane has changed, update recommendations
+        if (newLane && newLane !== currentLane) {
+          currentLane = newLane;
+          cli.displayStatus(`Lane assignment changed to ${currentLane}!`);
+          await showLaneRecommendations(currentLane);
+        }
+
+        // Check if enemy champion was picked
+        const enemyChampionId = await lcuApi.getLaneOpponent();
+
+        // Only update if it's a new champion or first time seeing a champion
+        if (enemyChampionId &&
+            currentLane &&
+            enemyChampionId !== lastSeenEnemyChampion) {
+
+          lastSeenEnemyChampion = enemyChampionId;
+
+          // Get champion name if possible
+          let enemyName = "";
+          try {
+            // Dynamic import to avoid circular dependencies
+            const { getChampionNameById } = await import('./data/matchups');
+            enemyName = getChampionNameById(enemyChampionId);
+            cli.displayStatus(`Enemy champion ${enemyName} picked! Updating recommendations...`);
+          } catch (error) {
+            cli.displayStatus(`Enemy champion picked! Updating recommendations...`);
+          }
+
+          // Show updated recommendations with enemy champion
+          await showLaneRecommendations(currentLane, enemyChampionId);
+        }
       }
     });
     
     return true;
   }
   
+  /**
+   * Helper function to show lane recommendations
+   */
+  async function showLaneRecommendations(lane: Lane, enemyChampionId?: number) {
+    try {
+      if (enemyChampionId) {
+        cli.displayStatus(`Fetching recommendations for ${lane} against enemy champion ID ${enemyChampionId}...`);
+      } else {
+        cli.displayStatus(`Fetching recommendations for ${lane}...`);
+      }
+
+      const recommendations = await recommender.getRecommendations(lane, 5, enemyChampionId);
+      cli.displayRecommendations(recommendations, lane);
+    } catch (error) {
+      console.error('Error showing lane recommendations:', error);
+      cli.displayError('Failed to get recommendations. Please try again.');
+    }
+  }
+
+  // Function to reset champion select state
+  function resetChampSelectState() {
+    inChampSelect = false;
+    currentLane = null;
+    lastSeenEnemyChampion = null;
+    cli.displayStatus('Left champion select. Ready for your next game!');
+  }
+
+  // Function to periodically check if still in champion select
+  async function startChampSelectMonitor() {
+    // Only run if connected to client
+    if (!lcuApi) return;
+
+    // Check every 10 seconds
+    setInterval(async () => {
+      if (inChampSelect) {
+        const stillInChampSelect = await lcuApi?.isInChampSelect();
+
+        // If we've left champion select, reset state
+        if (!stillInChampSelect) {
+          resetChampSelectState();
+        }
+      }
+    }, 10000);
+  }
+
   // Try to connect to the League client, but don't block app startup if it fails
   try {
     await connectToClient();
+    startChampSelectMonitor();
   } catch (error) {
     console.error('Failed to connect to League client:', error);
     cli.displayStatus('Running in standalone mode. Use "recommend <lane>" to get recommendations.');
@@ -101,9 +189,14 @@ async function main() {
           }
           
           if (lane) {
-            cli.displayStatus(`Fetching recommendations for ${lane}...`);
-            const recommendations = await recommender.getRecommendations(lane);
-            cli.displayRecommendations(recommendations, lane);
+            // Check if there's an enemy champion in the same lane
+            let enemyChampionId = null;
+            if (lcuApi) {
+              enemyChampionId = await lcuApi.getLaneOpponent();
+            }
+
+            // Use the helper function to show recommendations
+            await showLaneRecommendations(lane, enemyChampionId);
           }
           break;
         }

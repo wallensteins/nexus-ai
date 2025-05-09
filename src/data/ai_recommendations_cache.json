@@ -1,0 +1,239 @@
+{
+  "TOP": [],
+  "JUNGLE": [],
+  "MID": [],
+  "BOTTOM": [],
+  "SUPPORT": [
+    {
+      "champion": {
+        "id": 53,
+        "name": "Blitzcrank",
+        "key": "53",
+        "title": "the Great Steam Golem",
+        "winRate": 0.515,
+        "pickRate": 0.11,
+        "banRate": 0.12,
+        "tier": "A",
+        "lanes": {
+          "TOP": {
+            "winRate": 0.46,
+            "pickRate": 0.002,
+            "score": 3.3
+          },
+          "JUNGLE": {
+            "winRate": 0.45,
+            "pickRate": 0.004,
+            "score": 3.1
+          },
+          "MID": {
+            "winRate": 0.44,
+            "pickRate": 0.001,
+            "score": 2.2
+          },
+          "BOTTOM": {
+            "winRate": 0.45,
+            "pickRate": 0.002,
+            "score": 2.7
+          },
+          "SUPPORT": {
+            "winRate": 0.515,
+            "pickRate": 0.18,
+            "score": 8.4
+          }
+        }
+      },
+      "score": 35.773999999999994,
+      "reasons": [
+        "Blitzcrank is particularly effective as a support champion",
+        "Solid win rate (51.5%)",
+        "Strong initiation to create pick opportunities",
+        "Strong A-tier pick in the current meta",
+        "Provides reliable fight initiation to secure objectives"
+      ]
+    },
+    {
+      "champion": {
+        "id": 12,
+        "name": "Alistar",
+        "key": "12",
+        "title": "the Minotaur",
+        "winRate": 0.51,
+        "pickRate": 0.035,
+        "banRate": 0.005,
+        "tier": "B",
+        "lanes": {
+          "TOP": {
+            "winRate": 0.47,
+            "pickRate": 0.003,
+            "score": 3.5
+          },
+          "JUNGLE": {
+            "winRate": 0.45,
+            "pickRate": 0.002,
+            "score": 2.5
+          },
+          "MID": {
+            "winRate": 0.43,
+            "pickRate": 0.001,
+            "score": 2
+          },
+          "BOTTOM": {
+            "winRate": 0.45,
+            "pickRate": 0.002,
+            "score": 2.5
+          },
+          "SUPPORT": {
+            "winRate": 0.51,
+            "pickRate": 0.065,
+            "score": 7.2
+          }
+        }
+      },
+      "score": 32.001999999999995,
+      "reasons": [
+        "Alistar's kit is well-suited for support",
+        "Solid win rate (51.0%)",
+        "Strong initiation to create pick opportunities",
+        "Excellent late-game scaling",
+        "Provides much-needed tankiness for balanced team compositions"
+      ]
+    },
+    {
+      "champion": {
+        "id": 432,
+        "name": "Bard",
+        "key": "432",
+        "title": "the Wandering Caretaker",
+        "winRate": 0.51,
+        "pickRate": 0.035,
+        "banRate": 0.003,
+        "tier": "B",
+        "lanes": {
+          "TOP": {
+            "winRate": 0.45,
+            "pickRate": 0.001,
+            "score": 2.8
+          },
+          "JUNGLE": {
+            "winRate": 0.42,
+            "pickRate": 0.001,
+            "score": 1.8
+          },
+          "MID": {
+            "winRate": 0.44,
+            "pickRate": 0.001,
+            "score": 2.3
+          },
+          "BOTTOM": {
+            "winRate": 0.43,
+            "pickRate": 0.001,
+            "score": 1.9
+          },
+          "SUPPORT": {
+            "winRate": 0.51,
+            "pickRate": 0.06,
+            "score": 7.2
+          }
+        }
+      },
+      "score": 30.163999999999994,
+      "reasons": [
+        "Bard brings unique strengths to the support role",
+        "Solid win rate (51.0%)",
+        "Versatile utility throughout all game phases",
+        "Brings versatile utility to enable teammates"
+      ]
+    },
+    {
+      "champion": {
+        "id": 266,
+        "name": "Aatrox",
+        "key": "266",
+        "title": "the Darkin Blade",
+        "winRate": 0.512,
+        "pickRate": 0.086,
+        "banRate": 0.045,
+        "tier": "A",
+        "lanes": {
+          "TOP": {
+            "winRate": 0.515,
+            "pickRate": 0.134,
+            "score": 8.2
+          },
+          "JUNGLE": {
+            "winRate": 0.495,
+            "pickRate": 0.024,
+            "score": 5.1
+          },
+          "MID": {
+            "winRate": 0.503,
+            "pickRate": 0.018,
+            "score": 6.7
+          },
+          "BOTTOM": {
+            "winRate": 0.48,
+            "pickRate": 0.002,
+            "score": 3.1
+          },
+          "SUPPORT": {
+            "winRate": 0.465,
+            "pickRate": 0.001,
+            "score": 2.3
+          }
+        }
+      },
+      "score": 24.980000000000004,
+      "reasons": [
+        "Aatrox's kit is well-suited for support",
+        "Vision control and team coordination",
+        "Powerful mid-game spike",
+        "Strong A-tier pick in the current meta"
+      ]
+    },
+    {
+      "champion": {
+        "id": 32,
+        "name": "Amumu",
+        "key": "32",
+        "title": "the Sad Mummy",
+        "winRate": 0.522,
+        "pickRate": 0.042,
+        "banRate": 0.009,
+        "tier": "B",
+        "lanes": {
+          "TOP": {
+            "winRate": 0.48,
+            "pickRate": 0.003,
+            "score": 3.7
+          },
+          "JUNGLE": {
+            "winRate": 0.525,
+            "pickRate": 0.07,
+            "score": 7.5
+          },
+          "MID": {
+            "winRate": 0.46,
+            "pickRate": 0.001,
+            "score": 2.3
+          },
+          "BOTTOM": {
+            "winRate": 0.44,
+            "pickRate": 0.001,
+            "score": 2
+          },
+          "SUPPORT": {
+            "winRate": 0.505,
+            "pickRate": 0.025,
+            "score": 5.8
+          }
+        }
+      },
+      "score": 24.97,
+      "reasons": [
+        "Amumu brings unique strengths to the support role",
+        "Solid win rate (50.5%)",
+        "Vision control and team coordination"
+      ]
+    }
+  ]
+}

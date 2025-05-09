@@ -22,6 +22,8 @@ export interface ChampionRecommendation {
   champion: Champion;
   score: number;
   reasons: string[];
+  counters?: string[]; // Champions this pick counters
+  counteredBy?: string[]; // Champions that counter this pick
 }
 
 export interface LcuCredentials {

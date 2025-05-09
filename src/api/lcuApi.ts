@@ -74,13 +74,13 @@ export class LcuApi {
   async getAssignedLane(): Promise<Lane | null> {
     try {
       const session = await this.getChampSelectSession();
-      
+
       if (!session) {
         return null;
       }
 
       const playerData = session.myTeam.find(p => p.cellId === session.localPlayerCellId);
-      
+
       if (!playerData) {
         return null;
       }
@@ -97,6 +97,60 @@ export class LcuApi {
       return laneMap[playerData.assignedPosition] || null;
     } catch (error) {
       console.error('Error getting assigned lane:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get the enemy champions that have been picked so far
+   */
+  async getEnemyChampions(): Promise<number[]> {
+    try {
+      const session = await this.getChampSelectSession();
+
+      if (!session) {
+        return [];
+      }
+
+      // Filter out champions that haven't been picked yet (championId = 0)
+      return session.theirTeam
+        .filter(player => player.championId > 0)
+        .map(player => player.championId);
+    } catch (error) {
+      console.error('Error getting enemy champions:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get enemy champion in the same lane as the player
+   * This uses position matching to find the lane opponent
+   */
+  async getLaneOpponent(): Promise<number | null> {
+    try {
+      const session = await this.getChampSelectSession();
+
+      if (!session) {
+        return null;
+      }
+
+      // Get player data
+      const playerData = session.myTeam.find(p => p.cellId === session.localPlayerCellId);
+
+      if (!playerData || !playerData.assignedPosition) {
+        return null;
+      }
+
+      // Find enemy with the same position
+      const opponent = session.theirTeam.find(p => p.assignedPosition === playerData.assignedPosition);
+
+      if (!opponent || opponent.championId === 0) {
+        return null; // No champion picked yet
+      }
+
+      return opponent.championId;
+    } catch (error) {
+      console.error('Error getting lane opponent:', error);
       return null;
     }
   }
@@ -180,6 +234,18 @@ export class LcuApi {
    */
   onChampSelect(callback: (session: ChampSelectSession) => void): void {
     this.champSelectCallbacks.push(callback);
+  }
+
+  /**
+   * Check if player is currently in champion select
+   */
+  async isInChampSelect(): Promise<boolean> {
+    try {
+      const session = await this.getChampSelectSession();
+      return !!session;
+    } catch (error) {
+      return false;
+    }
   }
 
   /**

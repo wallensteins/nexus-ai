@@ -16,10 +16,13 @@ This application is a simple but powerful CLI tool that recommends champions bas
 
 The application connects to the League of Legends Client API (LCU API) to detect when you're in champion select and which lane you've been assigned. It then provides tailored champion recommendations based on:
 
-- Current meta statistics
-- Champion win rates
-- Champion popularity
-- Lane-specific performance metrics
+- AI-powered analysis of champion performance
+- Enemy champion counter-pick recommendations
+- Current meta statistics and team composition considerations
+- Champion win rates and popularity metrics
+- Lane-specific performance and matchup data
+- Champion skill requirements and playstyles
+- Game phase strengths (early, mid, late game)
 
 ## Technical Implementation
 
@@ -29,10 +32,20 @@ The application uses the League Client Update (LCU) API, which is available loca
 - Identify the assigned lane
 - Access real-time game state information
 
-For champion recommendations, we either:
-- Use Riot's Data Dragon API for champion data
-- Pull statistics from community API sources
-- Cache data locally for quick access even when offline
+For champion recommendations, we use:
+- AI-powered recommendation engine that analyzes multiple factors
+- Riot's Data Dragon API for basic champion data (names, IDs, etc.)
+- Real-time champion statistics with data including:
+  - Win rates for each role
+  - Pick rates and ban rates
+  - Lane-specific performance metrics
+  - Champion tier rankings
+- Complex scoring algorithms that consider:
+  - Champion archetype (tank, bruiser, mage, etc.)
+  - Team composition needs
+  - Game phase strengths (early, mid, late)
+  - Player skill requirements
+- Intelligent caching system to work offline and reduce API calls
 
 ## Installation
 
@@ -54,6 +67,12 @@ Additional commands:
 - `recommend [lane]` - Get recommendations for a specific lane
 - `help` - List all available commands
 - `exit` - Close the application
+
+When connected to the League client during champion select, the app will automatically:
+- Detect your assigned lane and show initial recommendations immediately
+- Identify when an enemy champion is picked in your lane
+- Automatically update recommendations with counter-pick information
+- Continue tracking champion selections to provide real-time advice
 
 ## Development Setup
 
